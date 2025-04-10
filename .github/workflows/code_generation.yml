@@ -1,0 +1,46 @@
+name: Check Code Generation
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/code_generation.yml
+      - packages/generator/bin/**
+      - packages/generator/lib/**
+      - packages/generator/pubspec.yaml
+      - tools/generate.dart
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/code_generation.yml
+      - packages/generator/bin/**
+      - packages/generator/lib/**
+      - packages/generator/pubspec.yaml
+      - tools/generate.dart
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
+
+      - name: 🎯 Setup Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: 📦 Install Workspace Dependencies
+        run: dart pub get
+
+      - name: 📦 Install package:win32 Dependencies
+        run: dart pub get
+        working-directory: packages/win32
+
+      - name: 📦 Install package:generator Dependencies
+        run: dart pub get
+        working-directory: packages/generator
+
+      - name: 🚀 Run Code Generation
+        run: dart tools\generate.dart
+
+      - name: 🔍 Verify Code Generation
+        run: git diff --exit-code

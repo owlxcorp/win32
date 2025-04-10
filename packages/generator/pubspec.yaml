@@ -1,0 +1,36 @@
+name: generator
+description: Generates various Win32 API projections using Windows metadata.
+publish_to: none
+
+environment:
+  sdk: ^3.7.0
+
+# Declare that this package only works on Windows.
+platforms:
+  windows:
+
+dependencies:
+  # For formatting Dart code (APIs for performing dart format).
+  dart_style: ^3.0.1
+
+  # Foreign Function Interface extension methods.
+  ffi: ^2.1.4
+
+  # Windows metadata for automatically generating API signatures.
+  winmd: ^6.1.0
+
+dev_dependencies:
+  # Used for running Git hooks.
+  hooks:
+    git:
+      url: https://github.com/halildurmus/workflows.git
+      path: packages/hooks
+
+  # Help ensure that the code is well-written.
+  lints: ^5.1.1
+
+  # Running the test suite.
+  test: ^1.25.15
+
+executables:
+  generator:
